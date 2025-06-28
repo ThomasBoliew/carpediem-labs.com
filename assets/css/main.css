@@ -100,7 +100,7 @@ input, select, textarea {
 
 	body {
 		background-color: #000000;
-		background-image:  url( ../../images/1920*1080WebSiteBackground.png"); /*Viewable across all pages.*/
+		background-image:  url(images/1920*1080WebSiteBackground.png"); /*Viewable across all pages.*/
 		background-size: auto,
  cover;
 		background-attachment: fixed,
