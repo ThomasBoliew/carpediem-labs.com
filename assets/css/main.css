@@ -100,19 +100,18 @@ input, select, textarea {
 
 	body {
 	  background-color: #000000;
-	  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("images/monitor.png");
+	  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../images/monitor.png");
 	  background-size: auto, cover;
-	  background-attachment: scroll, scroll; /* instead of fixed */
+	  background-attachment: scroll, scroll;
 	  background-position: center, center;
-		
 	}
 
-		@media screen and (max-width: 1800px) {
-		  body {
-		    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("images/mobile.png");
-		    background-attachment: scroll, scroll;
-		  }
-		}
+	@media screen and (max-width: 900px) {
+	  body {
+	    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../images/mobile.png");
+	    background-attachment: scroll, scroll;
+	  }
+	}
 
 /* Type */
 
