@@ -109,7 +109,9 @@ input, select, textarea {
 	@media screen and (max-width: 900px) {
 	  body {
 	    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../images/mobile.png");
+		background-size: auto, cover;
 	    background-attachment: scroll, scroll;
+		background-position: center, center;
 	  }
 	}
 
