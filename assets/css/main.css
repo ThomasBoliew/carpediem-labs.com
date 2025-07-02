@@ -100,7 +100,7 @@ input, select, textarea {
 
 	body {
 	  background-color: #000000;
-	  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../images/none.png");
+	  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../images/monitor.png");
 	  background-size: auto, cover;
 	  background-attachment: scroll, scroll;
 	  background-position: center, center;
@@ -108,7 +108,7 @@ input, select, textarea {
 
 	@media screen and (max-width: 1200px) {
 	  body {
-	    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../images/none.png");
+	    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../images/mobile.png");
 		background-size: auto, cover;
 	    background-attachment: scroll, scroll;
 		background-position: center, center;
