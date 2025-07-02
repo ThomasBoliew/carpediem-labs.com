@@ -3377,8 +3377,13 @@ input, select, textarea {
 	}
 
 		#banner .inner {
-			margin: 0 auto;
-			width: 55em;
+		  margin: 0 auto;
+		  width: 55em;
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center; /* vertical centering */
+		  align-items: center;     /* horizontal centering */
+		  text-align: center;      /* center text inside */
 		}
 
 		#banner .logo {
