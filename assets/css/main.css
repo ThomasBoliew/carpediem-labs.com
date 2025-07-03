@@ -1333,7 +1333,7 @@ input, select, textarea {
 				width: calc(50% - 0.875em - 1px);
 			}
 
-				.features article .image {
+				.features article .image {0
 					margin-bottom: 1.5em;
 					margin-left: -1.5em;
 					margin-top: -1.5em;
@@ -2091,7 +2091,7 @@ input, select, textarea {
 			}
 
 			.wrapper.spotlight .image {
-				border-radius: 100%;
+				border-radius: 5px;
 				margin: 0 3em 2em 0;
 				width: 22em;
 				overflow: hidden;
@@ -2099,7 +2099,7 @@ input, select, textarea {
 			}
 
 				.wrapper.spotlight .image img {
-					border-radius: 100%;
+					border-radius: 5px;
 					width: 100%;
 				}
 
