@@ -2096,12 +2096,16 @@ input, select, textarea {
 				height: 15em;
 				width: 15em;
 				overflow: hidden;
+				display: flex;
+				align-items: center;
 				-ms-flex: 1;
 			}
 
 				.wrapper.spotlight .image img {
 					border-radius: 5px;
 					width: 100%;
+					heigth: 100%;
+					object-fit: cover;
 				}
 
 			.wrapper.spotlight .content {
