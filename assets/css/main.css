@@ -2095,17 +2095,13 @@ input, select, textarea {
 				margin: 0 3em 2em 0;
 				height: 15em;
 				width: 15em;
-				overflow: hidden;
-				display: flex;
-				align-items: center;
+				overflow: hidden;				
 				-ms-flex: 1;
 			}
 
 				.wrapper.spotlight .image img {
 					border-radius: 5px;
-					width: 100%;
-					heigth: 100%;
-					object-fit: cover;
+					width: 100%;					
 				}
 
 			.wrapper.spotlight .content {
