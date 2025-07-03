@@ -2093,7 +2093,8 @@ input, select, textarea {
 			.wrapper.spotlight .image {
 				border-radius: 5px;
 				margin: 0 3em 2em 0;
-				width: 22em;
+				height: 18em
+				width: 18em;
 				overflow: hidden;
 				-ms-flex: 1;
 			}
