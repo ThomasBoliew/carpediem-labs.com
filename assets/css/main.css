@@ -104,6 +104,8 @@ input, select, textarea {
 	  background-size: cover, auto;
 	  background-attachment: scroll, scroll;
 	  background-position: center, center;
+	  background-repeat: no-repeat;
+	
 	}
 
 	@media screen and (max-width: 1200px) {
