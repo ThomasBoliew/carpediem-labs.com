@@ -101,7 +101,7 @@ input, select, textarea {
 	body {
 	  background-color: #000000;
 	  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../images/monitor.png");
-	  background-size: cover, auto;
+	  background-size: contain, auto;
 	  background-attachment: scroll, scroll;
 	  background-position: center, center;
 	  background-repeat: no-repeat;
