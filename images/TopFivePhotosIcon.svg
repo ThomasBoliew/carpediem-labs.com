@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+	<title id="title">Top Five Photos app icon</title>
+	<desc id="desc">Orange icon with black top text, white number five, and black photos text.</desc>
+	<rect width="1024" height="1024" fill="#f76b00"/>
+	<g font-family="Arial Black, Impact, sans-serif" text-anchor="middle" letter-spacing="28">
+		<text x="512" y="212" font-size="230" fill="rgba(0,0,0,0.55)" transform="translate(10 10)">TOP</text>
+		<text x="512" y="212" font-size="230" fill="#ffffff" transform="translate(6 6)">TOP</text>
+		<text x="512" y="212" font-size="230" fill="#000000">TOP</text>
+	</g>
+	<g font-family="Arial Black, Impact, sans-serif" text-anchor="middle" font-style="italic">
+		<text x="512" y="780" font-size="720" fill="rgba(0,0,0,0.6)" transform="translate(18 18)">5</text>
+		<text x="512" y="780" font-size="720" fill="#ffffff">5</text>
+	</g>
+	<g font-family="Arial Black, Impact, sans-serif" text-anchor="middle" letter-spacing="34">
+		<text x="512" y="910" font-size="145" fill="rgba(0,0,0,0.55)" transform="translate(10 10)">PHOTOS</text>
+		<text x="512" y="910" font-size="145" fill="#ffffff" transform="translate(5 5)">PHOTOS</text>
+		<text x="512" y="910" font-size="145" fill="#000000">PHOTOS</text>
+	</g>
+</svg>
