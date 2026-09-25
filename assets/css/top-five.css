@@ -83,6 +83,15 @@
 	align-items: center;
 }
 
+.tf-store-button {
+	min-width: 12rem;
+}
+
+.top-five-page .tf-store-button:before {
+	color: currentColor;
+	font-size: 1.35em;
+}
+
 .top-five-page .button.primary {
 	background: var(--tf-orange);
 	box-shadow: none;
@@ -376,8 +385,18 @@
 		justify-content: center;
 	}
 
+	.tf-store-buttons {
+		flex-wrap: nowrap;
+		gap: 0.65rem;
+	}
+
 	.tf-store-buttons .button {
-		width: 100%;
+		flex: 1 1 0;
+		min-width: 0;
+		width: auto;
+		padding: 0 0.75em;
+		font-size: 0.68em;
+		letter-spacing: 0.06em;
 		text-align: center;
 	}
 }
