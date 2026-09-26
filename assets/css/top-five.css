@@ -82,6 +82,7 @@
 	gap: 0.75rem;
 	align-items: center;
 	width: min(100%, 22rem);
+	transform: translateX(0.4rem);
 }
 
 .tf-store-link {
