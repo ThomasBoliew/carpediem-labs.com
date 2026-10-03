@@ -1,0 +1,13 @@
+name = "carpediem-site-analytics"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+preview_urls = false
+
+[[d1_databases]]
+binding = "ANALYTICS_DB"
+database_name = "carpediem-site-analytics"
+database_id = "fa5629ea-e876-415e-98be-74f53619da8d"
+
+[vars]
+ALLOWED_ORIGIN = "https://carpediem-labs.com"

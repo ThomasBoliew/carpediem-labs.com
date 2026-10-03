@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Site Analytics | Carpe Diem Labs</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex, nofollow, noarchive" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/site-analytics.css" />
+	</head>
+	<body class="analytics-page">
+		<main class="analytics-shell">
+			<header>
+				<p class="analytics-eyebrow">Carpe Diem Labs</p>
+				<h1>Website Analytics</h1>
+				<p>Anonymous visits and store-button selections.</p>
+			</header>
+
+			<section id="login-panel" class="analytics-card">
+				<form id="login-form">
+					<label for="password">Password</label>
+					<div class="login-row">
+						<input id="password" type="password" autocomplete="current-password" required />
+						<button type="submit">Log in</button>
+					</div>
+					<p id="login-message" class="status-message" aria-live="polite"></p>
+				</form>
+			</section>
+
+			<section id="dashboard" hidden>
+				<div class="dashboard-toolbar analytics-card">
+					<label for="days">Report period</label>
+					<select id="days">
+						<option value="7">Last 7 days</option>
+						<option value="30" selected>Last 30 days</option>
+						<option value="90">Last 90 days</option>
+					</select>
+					<button id="refresh" type="button">Refresh</button>
+					<button id="download" type="button">Download CSV</button>
+					<button id="logout" class="secondary" type="button">Log out</button>
+				</div>
+
+				<div class="summary-grid">
+					<article class="analytics-card"><span>Website visits</span><strong id="visit-total">0</strong></article>
+					<article class="analytics-card"><span>App Store clicks</span><strong id="apple-total">0</strong></article>
+					<article class="analytics-card"><span>Google Play clicks</span><strong id="google-total">0</strong></article>
+					<article class="analytics-card"><span>Store click rate</span><strong id="click-rate">0%</strong></article>
+				</div>
+
+				<div class="analytics-card table-card">
+					<table>
+						<thead>
+							<tr><th>Date</th><th>Source</th><th>Campaign</th><th>Creative</th><th>Visits</th><th>App Store</th><th>Google Play</th></tr>
+						</thead>
+						<tbody id="report-body"></tbody>
+					</table>
+					<p id="report-message" class="status-message" aria-live="polite"></p>
+				</div>
+			</section>
+		</main>
+
+		<script src="assets/js/analytics-dashboard.js" data-endpoint="https://carpediem-site-analytics.carpediemlabs.workers.dev"></script>
+	</body>
+</html>
