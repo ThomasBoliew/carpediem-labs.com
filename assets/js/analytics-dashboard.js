@@ -31,6 +31,7 @@
 
 	function render(data) {
 		rows = data.rows || [];
+		document.getElementById('arrival-total').textContent = data.totals.arrivals;
 		document.getElementById('visit-total').textContent = data.totals.visits;
 		document.getElementById('apple-total').textContent = data.totals.apple;
 		document.getElementById('google-total').textContent = data.totals.google;
@@ -40,7 +41,7 @@
 		body.textContent = '';
 		rows.forEach(function (row) {
 			var tr = document.createElement('tr');
-			['date', 'source', 'campaign', 'creative', 'visits', 'apple', 'google'].forEach(function (key) {
+			['date', 'source', 'campaign', 'creative', 'arrivals', 'visits', 'apple', 'google'].forEach(function (key) {
 				var td = document.createElement('td');
 				td.textContent = row[key];
 				tr.appendChild(td);
@@ -96,9 +97,9 @@
 	});
 
 	document.getElementById('download').addEventListener('click', function () {
-		var headers = ['Date', 'Source', 'Campaign', 'Creative', 'Visits', 'App Store', 'Google Play'];
+		var headers = ['Date', 'Source', 'Campaign', 'Creative', 'Ad arrivals', 'Visits', 'App Store', 'Google Play'];
 		var csvRows = [headers].concat(rows.map(function (row) {
-			return [row.date, row.source, row.campaign, row.creative, row.visits, row.apple, row.google];
+			return [row.date, row.source, row.campaign, row.creative, row.arrivals, row.visits, row.apple, row.google];
 		}));
 		var csv = csvRows.map(function (row) {
 			return row.map(function (value) { return '"' + String(value).replace(/"/g, '""') + '"'; }).join(',');

@@ -21,6 +21,30 @@ function clean(value, maxLength) {
 	return typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
 }
 
+function campaignValue(url, name) {
+	return clean(url.searchParams.get(name), name === 'utm_campaign' || name === 'utm_content' ? 100 : 80);
+}
+
+function campaignDetails(request) {
+	const url = new URL(request.url);
+	let referrerUrl = null;
+	try {
+		referrerUrl = new URL(request.headers.get('Referer') || '');
+	} catch (_) {}
+
+	function value(name) {
+		return campaignValue(url, name) || (referrerUrl ? campaignValue(referrerUrl, name) : '');
+	}
+
+	return {
+		referrer: referrerUrl ? clean(referrerUrl.hostname, 160) : '',
+		utm_source: value('utm_source'),
+		utm_medium: value('utm_medium'),
+		utm_campaign: value('utm_campaign'),
+		utm_content: value('utm_content')
+	};
+}
+
 function base64Url(bytes) {
 	return btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
@@ -61,31 +85,90 @@ function safeEqual(a, b) {
 	return different === 0;
 }
 
-async function collect(request, env) {
-	const body = await request.json().catch(() => null);
-	if (!body || !['page_view', 'store_click'].includes(body.event)) return json({ error: 'Invalid event' }, 400, cors(env, request));
-
-	const page = clean(body.page, 160);
-	const destination = clean(body.destination, 32);
-	if (page !== '/TopFivePhotos.html' || (body.event === 'store_click' && !['app_store', 'google_play'].includes(destination))) {
-		return json({ error: 'Invalid event details' }, 400, cors(env, request));
-	}
-
+async function recordEvent(env, event) {
 	await env.ANALYTICS_DB.prepare(`
 		INSERT INTO events (event, page, destination, referrer, utm_source, utm_medium, utm_campaign, utm_content)
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 	`).bind(
-		body.event,
-		page,
-		destination,
-		clean(body.referrer, 160),
-		clean(body.utm_source, 80),
-		clean(body.utm_medium, 80),
-		clean(body.utm_campaign, 100),
-		clean(body.utm_content, 100)
+		event.event,
+		event.page,
+		event.destination,
+		event.referrer,
+		event.utm_source,
+		event.utm_medium,
+		event.utm_campaign,
+		event.utm_content
 	).run();
+}
+
+async function collect(request, env) {
+	const body = await request.json().catch(() => null);
+	if (!body || body.event !== 'page_view') return json({ error: 'Invalid event' }, 400, cors(env, request));
+
+	const page = clean(body.page, 160);
+	if (page !== '/TopFivePhotos.html') return json({ error: 'Invalid event details' }, 400, cors(env, request));
+
+	await recordEvent(env, {
+		event: 'page_view',
+		page,
+		destination: '',
+		referrer: clean(body.referrer, 160),
+		utm_source: clean(body.utm_source, 80),
+		utm_medium: clean(body.utm_medium, 80),
+		utm_campaign: clean(body.utm_campaign, 100),
+		utm_content: clean(body.utm_content, 100)
+	});
 
 	return json({ ok: true }, 202, cors(env, request));
+}
+
+const STORE_URLS = {
+	app_store: 'https://apps.apple.com/app/id6809026375',
+	google_play: 'https://play.google.com/store/apps/details?id=com.carpediem.fotos'
+};
+
+function campaignTarget(details) {
+	const target = new URL('https://carpediem-labs.com/TopFivePhotos.html');
+	['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(name => {
+		if (details[name]) target.searchParams.set(name, details[name]);
+	});
+	return target.toString();
+}
+
+async function landingRedirect(request, env) {
+	const details = campaignDetails(request);
+	await recordEvent(env, {
+		event: 'page_view',
+		page: '/go/landing',
+		destination: '',
+		...details
+	});
+
+	return new Response(null, {
+		status: 302,
+		headers: {
+			'Location': campaignTarget(details),
+			'Cache-Control': 'no-store'
+		}
+	});
+}
+
+async function storeRedirect(request, env, destination) {
+	const details = campaignDetails(request);
+	await recordEvent(env, {
+		event: 'store_click',
+		page: '/TopFivePhotos.html',
+		destination,
+		...details
+	});
+
+	return new Response(null, {
+		status: 302,
+		headers: {
+			'Location': STORE_URLS[destination],
+			'Cache-Control': 'no-store'
+		}
+	});
 }
 
 async function login(request, env) {
@@ -103,7 +186,8 @@ async function report(request, env) {
 			COALESCE(NULLIF(utm_source, ''), COALESCE(NULLIF(referrer, ''), 'direct')) AS source,
 			COALESCE(NULLIF(utm_campaign, ''), '—') AS campaign,
 			COALESCE(NULLIF(utm_content, ''), '—') AS creative,
-			SUM(CASE WHEN event = 'page_view' THEN 1 ELSE 0 END) AS visits,
+			SUM(CASE WHEN event = 'page_view' AND page = '/go/landing' THEN 1 ELSE 0 END) AS arrivals,
+			SUM(CASE WHEN event = 'page_view' AND page = '/TopFivePhotos.html' THEN 1 ELSE 0 END) AS visits,
 			SUM(CASE WHEN event = 'store_click' AND destination = 'app_store' THEN 1 ELSE 0 END) AS apple,
 			SUM(CASE WHEN event = 'store_click' AND destination = 'google_play' THEN 1 ELSE 0 END) AS google
 		FROM events
@@ -114,10 +198,11 @@ async function report(request, env) {
 
 	const rows = result.results || [];
 	const totals = rows.reduce((sum, row) => ({
+		arrivals: sum.arrivals + Number(row.arrivals),
 		visits: sum.visits + Number(row.visits),
 		apple: sum.apple + Number(row.apple),
 		google: sum.google + Number(row.google)
-	}), { visits: 0, apple: 0, google: 0 });
+	}), { arrivals: 0, visits: 0, apple: 0, google: 0 });
 	totals.clickRate = totals.visits ? Math.round(((totals.apple + totals.google) / totals.visits) * 1000) / 10 : 0;
 	return json({ rows, totals }, 200, cors(env, request));
 }
@@ -125,14 +210,18 @@ async function report(request, env) {
 export default {
 	async fetch(request, env) {
 		const url = new URL(request.url);
+		const path = url.pathname.startsWith('/cd-track/') ? url.pathname.slice('/cd-track'.length) : url.pathname;
 		const headers = cors(env, request);
 		if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
 		if (request.headers.get('Origin') && !headers['Access-Control-Allow-Origin']) return json({ error: 'Origin not allowed' }, 403);
 
-		if (url.pathname === '/collect' && request.method === 'POST') return collect(request, env);
-		if (url.pathname === '/login' && request.method === 'POST') return login(request, env);
-		if (url.pathname === '/report' && request.method === 'GET') return report(request, env);
-		if (url.pathname === '/health') return json({ ok: true }, 200, headers);
+		if (path === '/collect' && request.method === 'POST') return collect(request, env);
+		if (path === '/login' && request.method === 'POST') return login(request, env);
+		if (path === '/report' && request.method === 'GET') return report(request, env);
+		if (path === '/go/landing' && request.method === 'GET') return landingRedirect(request, env);
+		if (path === '/go/app-store' && request.method === 'GET') return storeRedirect(request, env, 'app_store');
+		if (path === '/go/google-play' && request.method === 'GET') return storeRedirect(request, env, 'google_play');
+		if (path === '/health') return json({ ok: true }, 200, headers);
 		return json({ error: 'Not found' }, 404, headers);
 	}
 };

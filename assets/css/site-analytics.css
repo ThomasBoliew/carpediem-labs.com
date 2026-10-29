@@ -35,7 +35,7 @@ body.analytics-page {
 
 .summary-grid {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-template-columns: repeat(5, minmax(0, 1fr));
 	gap: 1rem;
 }
 
@@ -49,4 +49,8 @@ body.analytics-page {
 
 @media (max-width: 760px) {
 	.summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 761px) and (max-width: 1050px) {
+	.summary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }

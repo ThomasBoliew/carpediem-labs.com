@@ -21,11 +21,11 @@
 		}
 	}
 
-	function send(eventName, destination) {
+	function sendPageView() {
 		var payload = JSON.stringify({
-			event: eventName,
+			event: 'page_view',
 			page: window.location.pathname,
-			destination: destination || '',
+			destination: '',
 			referrer: referralHost(),
 			utm_source: campaignValue('utm_source'),
 			utm_medium: campaignValue('utm_medium'),
@@ -34,27 +34,30 @@
 		});
 
 		if (navigator.sendBeacon) {
-			navigator.sendBeacon(endpoint + '/collect', new Blob([payload], { type: 'application/json' }));
+			navigator.sendBeacon(endpoint + '/collect', new Blob([payload], { type: 'text/plain;charset=UTF-8' }));
 			return;
 		}
 
 		fetch(endpoint + '/collect', {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
 			body: payload,
 			keepalive: true
 		}).catch(function () {});
 	}
 
-	var pageKey = 'cdl-page-view:' + window.location.pathname + window.location.search;
-	if (!sessionStorage.getItem(pageKey)) {
-		sessionStorage.setItem(pageKey, '1');
-		send('page_view');
+	function preserveCampaignOnStoreLinks() {
+		var campaign = new URLSearchParams(window.location.search);
+		document.querySelectorAll('a[data-store]').forEach(function (link) {
+			var target = new URL(link.href);
+			['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (name) {
+				var value = campaign.get(name);
+				if (value) target.searchParams.set(name, value);
+			});
+			link.href = target.toString();
+		});
 	}
 
-	document.addEventListener('click', function (event) {
-		var link = event.target.closest('a[data-store]');
-		if (!link) return;
-		send('store_click', link.dataset.store);
-	});
+	preserveCampaignOnStoreLinks();
+	sendPageView();
 })();
