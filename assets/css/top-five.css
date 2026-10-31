@@ -388,7 +388,8 @@
 @media screen and (max-width: 736px) {
 	.tf-hero {
 		min-height: calc(100svh + 4rem);
-		padding: 5.75rem 1.25rem 2.75rem;
+		padding: clamp(3rem, 6svh, 4rem) 1.25rem 2.75rem;
+		align-items: flex-start;
 	}
 
 	.tf-hero-inner,
