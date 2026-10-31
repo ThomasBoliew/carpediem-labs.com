@@ -40,6 +40,7 @@
 	grid-template-areas:
 		"phone title"
 		"phone actions"
+		"phone ready"
 		"phone tagline";
 	column-gap: clamp(3rem, 7vw, 7rem);
 	row-gap: 1.4rem;
@@ -66,6 +67,7 @@
 .tf-hero-title {
 	grid-area: title;
 	align-self: end;
+	text-align: center;
 }
 
 .tf-hero h2 {
@@ -80,6 +82,7 @@
 
 .tf-hero-actions {
 	grid-area: actions;
+	justify-self: center;
 }
 
 .tf-store-buttons {
@@ -125,12 +128,23 @@
 	background: var(--tf-orange-light);
 }
 
+.tf-hero-ready {
+	grid-area: ready;
+	font-size: clamp(1.6rem, 3vw, 2.35rem);
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+	text-align: center;
+	margin: 0;
+}
+
 .tf-hero-tagline {
 	grid-area: tagline;
 	align-self: start;
 	font-size: clamp(1.05rem, 1.8vw, 1.3rem);
 	line-height: 1.5;
 	color: #dedfe4;
+	text-align: center;
 	margin: 0;
 }
 
@@ -370,6 +384,7 @@
 		grid-template-areas:
 			"title title"
 			"phone actions"
+			"ready ready"
 			"tagline tagline";
 		column-gap: 1rem;
 		row-gap: 1.15rem;
@@ -377,7 +392,11 @@
 	}
 
 	.tf-hero h2 {
-		font-size: clamp(2.35rem, 10.8vw, 3.65rem);
+		font-size: clamp(2.5rem, 11.5vw, 3.8rem);
+	}
+
+	.tf-hero-ready {
+		font-size: clamp(1.65rem, 7.5vw, 2.2rem);
 	}
 
 	.tf-store-buttons {
