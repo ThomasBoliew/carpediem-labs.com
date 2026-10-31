@@ -387,7 +387,7 @@
 
 @media screen and (max-width: 736px) {
 	.tf-hero {
-		min-height: 100svh;
+		min-height: calc(100svh + 4rem);
 		padding: 5.75rem 1.25rem 2.75rem;
 	}
 
