@@ -110,6 +110,11 @@
 	height: auto;
 }
 
+.tf-hero-actions .tf-store-link[data-store="google_play"] {
+	width: 115%;
+	justify-self: center;
+}
+
 .top-five-page .button.primary {
 	background: var(--tf-orange);
 	box-shadow: none;
@@ -372,7 +377,7 @@
 	}
 
 	.tf-hero h2 {
-		font-size: clamp(2.6rem, 12vw, 4rem);
+		font-size: clamp(2.35rem, 10.8vw, 3.65rem);
 	}
 
 	.tf-store-buttons {
