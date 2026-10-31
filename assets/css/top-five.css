@@ -37,7 +37,12 @@
 	margin: 0 auto;
 	display: grid;
 	grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1fr);
-	gap: clamp(3rem, 7vw, 7rem);
+	grid-template-areas:
+		"phone title"
+		"phone actions"
+		"phone tagline";
+	column-gap: clamp(3rem, 7vw, 7rem);
+	row-gap: 1.4rem;
 	align-items: center;
 }
 
@@ -58,30 +63,31 @@
 	margin: 0 0 1rem;
 }
 
+.tf-hero-title {
+	grid-area: title;
+	align-self: end;
+}
+
 .tf-hero h2 {
 	font-size: clamp(2.55rem, 5.4vw, 5.4rem);
 	line-height: 1.02;
 	letter-spacing: -0.035em;
 	text-transform: none;
 	border: 0;
-	margin: 0 0 1.5rem;
+	margin: 0;
 	padding: 0;
 }
 
-.tf-lead {
-	font-size: clamp(1.15rem, 2vw, 1.4rem);
-	line-height: 1.55;
-	max-width: 34rem;
-	color: #dedfe4;
-	margin-bottom: 1.7rem;
+.tf-hero-actions {
+	grid-area: actions;
 }
 
 .tf-store-buttons {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+	grid-template-columns: 1fr;
 	gap: 0.9rem;
 	align-items: center;
-	width: min(100%, 29rem);
+	width: min(100%, 18rem);
 	transform: none;
 }
 
@@ -114,13 +120,17 @@
 	background: var(--tf-orange-light);
 }
 
-.tf-platform-note {
-	font-size: 0.85rem;
-	color: var(--tf-muted);
-	margin: 1rem 0 0;
+.tf-hero-tagline {
+	grid-area: tagline;
+	align-self: start;
+	font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+	line-height: 1.5;
+	color: #dedfe4;
+	margin: 0;
 }
 
 .tf-phone-wrap {
+	grid-area: phone;
 	position: relative;
 	max-width: 25rem;
 	justify-self: center;
@@ -311,7 +321,7 @@
 @media screen and (max-width: 980px) {
 	.tf-hero-inner {
 		grid-template-columns: minmax(15rem, 0.62fr) 1fr;
-		gap: 2.5rem;
+		column-gap: 2.5rem;
 	}
 
 	.tf-benefits {
@@ -350,40 +360,51 @@
 		grid-template-columns: 1fr;
 	}
 
-	.tf-hero-copy {
-		text-align: left;
-		order: 1;
+	.tf-hero-inner {
+		grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+		grid-template-areas:
+			"title title"
+			"phone actions"
+			"tagline tagline";
+		column-gap: 1rem;
+		row-gap: 1.15rem;
+		align-items: center;
 	}
 
 	.tf-hero h2 {
-		font-size: clamp(2.65rem, 12.2vw, 4.15rem);
-		margin-bottom: 1rem;
-	}
-
-	.tf-lead {
-		font-size: 1.08rem;
-		line-height: 1.5;
-		margin-bottom: 1.35rem;
+		font-size: clamp(2.6rem, 12vw, 4rem);
 	}
 
 	.tf-store-buttons {
 		width: 100%;
-		gap: 0.65rem;
+		grid-template-columns: 1fr;
+		gap: 0.85rem;
 	}
 
-	.tf-platform-note {
-		margin-top: 0.75rem;
+	.tf-hero-tagline {
+		font-size: 1.05rem;
+		text-align: center;
+		padding-top: 0.15rem;
 	}
 
-	.tf-phone-wrap,
+	.tf-phone-wrap {
+		width: 100%;
+		max-width: 11rem;
+		justify-self: end;
+		padding: 0.35rem;
+		border-radius: 1.7rem;
+	}
+
+	.tf-phone-wrap img {
+		border-radius: 1.4rem;
+	}
+
 	.tf-secure-image {
 		max-width: 19rem;
 		justify-self: center;
 	}
 
 	.tf-phone-wrap {
-		order: 2;
-		margin-top: 0.5rem;
 		transform: none;
 	}
 
